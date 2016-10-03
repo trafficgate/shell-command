@@ -1,0 +1,39 @@
+{
+    "name": "trafficgate/shell-command",
+    "description": "Interface for creating PHP objects that wrap shell commands",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/trafficgate/shell-command/issues",
+        "source": "https://github.com/trafficgate/shell-command"
+    },
+    "authors": [
+        {
+            "name": "Andrew Miller",
+            "email": "andrew.miller@rakuten.com"
+        }
+    ],
+    "require": {
+        "symfony/process": "~2.8|~3.0",
+        "psr/log": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5",
+        "friendsofphp/php-cs-fixer": "^1.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Trafficgate\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Trafficgate\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "stable"
+}
