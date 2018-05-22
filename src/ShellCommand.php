@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 /**
  * Class ShellCommand.
@@ -112,7 +112,7 @@ abstract class ShellCommand
     /**
      * The process builder.
      *
-     * @var ProcessBuilder
+     * @var Process
      */
     private $builder;
 
@@ -384,7 +384,7 @@ abstract class ShellCommand
      */
     final public function getCommandString()
     {
-        return $this->compile()->getProcess()->getCommandLine();
+        return $this->compile()->getCommandLine();
     }
 
     /**
@@ -403,7 +403,7 @@ abstract class ShellCommand
             throw new LogicException('No command has been specified! Cannot execute.');
         }
 
-        $process = $this->compile()->getProcess()->setIdleTimeout($idleTimeout);
+        $process = $this->compile()->setIdleTimeout($idleTimeout);
 
         $error = null;
 
@@ -571,15 +571,10 @@ abstract class ShellCommand
     /**
      * Compile the parts of the command.
      *
-     * @return ProcessBuilder
+     * @return Process
      */
     final private function compile()
     {
-        $builder = new ProcessBuilder();
-        $builder->setPrefix($this->shellCommand);
-
-        $builder->setTimeout($this->getCommandTimeout());
-
         $shellOptions = [];
         /** @var ShellOption $shellOption */
         foreach ($this->shellOptions as $shellOption) {
@@ -591,8 +586,11 @@ abstract class ShellCommand
             $shellArguments[] = $shellArgument['value'];
         }
 
-        $arguments = array_merge($shellOptions, $shellArguments);
-        $builder->setArguments($arguments);
+        $command = array_merge([$this->shellCommand], $shellOptions, $shellArguments);
+
+        $builder = new Process($command);
+
+        $builder->setTimeout($this->getCommandTimeout());
 
         $this->builder = $builder;
 
