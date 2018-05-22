@@ -2,10 +2,10 @@
 
 namespace Trafficgate\Shell;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
-class ShellCommandTest extends PHPUnit_Framework_TestCase
+class ShellCommandTest extends TestCase
 {
     public function testCommandTimeout()
     {

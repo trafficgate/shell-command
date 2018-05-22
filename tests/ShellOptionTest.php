@@ -2,9 +2,9 @@
 
 namespace Trafficgate\Shell;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ShellOptionTest extends PHPUnit_Framework_TestCase
+class ShellOptionTest extends TestCase
 {
     public function testConstruct()
     {
