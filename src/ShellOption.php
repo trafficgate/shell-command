@@ -45,7 +45,7 @@ final class ShellOption
      *
      * @param string $flag The flag value for the shell option
      */
-    final public function __construct($flag)
+    public function __construct($flag)
     {
         $this->values = [];
         $this->disable();
@@ -56,6 +56,226 @@ final class ShellOption
         $this->setCanHaveMultipleValues($parsedFlag['can_have_multiple_values']);
         $this->setValues($parsedFlag['values']);
         $this->setDescription($parsedFlag['description']);
+    }
+
+    /**
+     * Get the flag.
+     *
+     * @return string
+     */
+    public function flag()
+    {
+        return $this->flag;
+    }
+
+    /**
+     * Return if this option is enabled.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Return if this option is disabled.
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return ! $this->isEnabled();
+    }
+
+    /**
+     * Enable the option.
+     *
+     * @param bool|true $enable
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return $this
+     */
+    public function enable($enable = true)
+    {
+        if (! is_bool($enable)) {
+            throw new InvalidArgumentException("enable must be a boolean. [$enable] given.");
+        }
+
+        $this->enabled = $enable;
+
+        return $this;
+    }
+
+    /**
+     * Syntactic sugar for enable(false).
+     *
+     * @see enable()
+     *
+     * @return $this
+     */
+    public function disable()
+    {
+        return $this->enable(false);
+    }
+
+    /**
+     * Return whether this option can have a value or not.
+     *
+     * @return bool
+     */
+    public function canHaveValue()
+    {
+        return $this->canHaveValue;
+    }
+
+    /**
+     * Return whether this option can have multiple values or not.
+     *
+     * @return bool
+     */
+    public function canHaveMultipleValues()
+    {
+        return $this->canHaveMultipleValues;
+    }
+
+    /**
+     * Return whether this option has the given value or not.
+     *
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public function hasValue($value)
+    {
+        $index = array_search($value, $this->values);
+
+        if ($index === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the values for this option.
+     *
+     * @return array
+     */
+    public function values()
+    {
+        return $this->values;
+    }
+
+    /**
+     * Add a new value to this option.
+     *
+     * @param int|string $value
+     *
+     * @return $this
+     */
+    public function addValue($value)
+    {
+        $this->assertCanHaveValue();
+        $this->assertValueIsValid($value);
+
+        if ($this->canHaveMultipleValues() && ! $this->hasValue($value)) {
+            $value = array_merge($this->values, (array) $value);
+        }
+
+        $this->values = (array) $value;
+
+        return $this;
+    }
+
+    /**
+     * Add multiple values to this option.
+     *
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function addValues(array $values = [])
+    {
+        $this->assertCanHaveMultipleValues();
+
+        foreach ($values as $value) {
+            $this->addValue($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove the given value from the option.
+     *
+     * @param int|string $value
+     *
+     * @return $this
+     */
+    public function removeValue($value)
+    {
+        if (! $this->canHaveMultipleValues() && ! isset($value)) {
+            $this->values = [];
+            $this->enable($enable = false);
+
+            return $this;
+        }
+
+        $this->assertValueIsValid($value);
+        $this->assertCanHaveValue();
+
+        if ($this->hasValue($value)) {
+            $index = array_search($value, $this->values);
+            unset($this->values[$index]);
+            $this->values = array_values($this->values);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove the given values from the option.
+     *
+     * @param array $values
+     *
+     * @return $this
+     */
+    public function removeValues(array $values = [])
+    {
+        $this->assertCanHaveMultipleValues();
+
+        foreach ($values as $value) {
+            $this->removeValue($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the option and its values as an array.
+     *
+     * @return array
+     */
+    public function getArray()
+    {
+        $options = [];
+
+        if ($this->isDisabled() || $this->canHaveValue() && empty($this->values)) {
+            return $options;
+        }
+
+        foreach ($this->values as $value) {
+            $options[] = $this->flag();
+            $options[] = $value;
+        }
+
+        if (empty($options)) {
+            $options[] = $this->flag();
+        }
+
+        return $options;
     }
 
     /**
@@ -73,11 +293,10 @@ final class ShellOption
      *
      * @return array
      */
-    final private function parseFlag($flag)
+    private function parseFlag($flag)
     {
         $flag    = trim($flag);
-        $pattern =
-            '/^'.// Match start of string
+        $pattern = '/^'.// Match start of string
             '('.// Start Group
                 '(?<flag>(?:-\w|--\w[\w-]+))'.// Match Group <flag>
                 '(?<enable>\+)?'.//Enable option by default (useful for creating special commands)
@@ -151,16 +370,6 @@ final class ShellOption
     }
 
     /**
-     * Get the flag.
-     *
-     * @return string
-     */
-    final public function flag()
-    {
-        return $this->flag;
-    }
-
-    /**
      * Set the flag.
      *
      * @param string $flag
@@ -169,7 +378,7 @@ final class ShellOption
      *
      * @return $this
      */
-    final private function setFlag($flag)
+    private function setFlag($flag)
     {
         if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag must be a string. [$flag] given.");
@@ -189,7 +398,7 @@ final class ShellOption
      *
      * @return $this
      */
-    final private function setCanHaveValue($canHaveValue)
+    private function setCanHaveValue($canHaveValue)
     {
         if (! is_bool($canHaveValue)) {
             throw new InvalidArgumentException("canHaveValue must be a boolean. [$canHaveValue] given.");
@@ -209,7 +418,7 @@ final class ShellOption
      *
      * @return $this
      */
-    final private function setCanHaveMultipleValues($canHaveMultipleValues)
+    private function setCanHaveMultipleValues($canHaveMultipleValues)
     {
         if (! is_bool($canHaveMultipleValues)) {
             throw new InvalidArgumentException("canHaveMultipleValues must be a boolean. [$canHaveMultipleValues] given.");
@@ -227,7 +436,7 @@ final class ShellOption
      *
      * @throws InvalidArgumentException
      */
-    final private function setDescription($description = null)
+    private function setDescription($description = null)
     {
         if (isset($description) && ! is_string($description)) {
             throw new InvalidArgumentException("Description must be a string. [$description] given.");
@@ -237,113 +446,13 @@ final class ShellOption
     }
 
     /**
-     * Return if this option is enabled.
-     *
-     * @return bool
-     */
-    final public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * Return if this option is disabled.
-     *
-     * @return bool
-     */
-    final public function isDisabled()
-    {
-        return ! $this->isEnabled();
-    }
-
-    /**
-     * Enable the option.
-     *
-     * @param bool|true $enable
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return $this
-     */
-    final public function enable($enable = true)
-    {
-        if (! is_bool($enable)) {
-            throw new InvalidArgumentException("enable must be a boolean. [$enable] given.");
-        }
-
-        $this->enabled = $enable;
-
-        return $this;
-    }
-
-    /**
-     * Syntactic sugar for enable(false).
-     *
-     * @see enable()
-     *
-     * @return $this
-     */
-    final public function disable()
-    {
-        return $this->enable(false);
-    }
-
-    /**
-     * Return whether this option can have a value or not.
-     *
-     * @return bool
-     */
-    final public function canHaveValue()
-    {
-        return $this->canHaveValue;
-    }
-
-    /**
-     * Return whether this option can have multiple values or not.
-     *
-     * @return bool
-     */
-    final public function canHaveMultipleValues()
-    {
-        return $this->canHaveMultipleValues;
-    }
-
-    /**
-     * Return whether this option has the given value or not.
-     *
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    final public function hasValue($value)
-    {
-        $index = array_search($value, $this->values);
-
-        if ($index === false) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get the values for this option.
-     *
-     * @return array
-     */
-    final public function values()
-    {
-        return $this->values;
-    }
-
-    /**
      * Set the values for this option.
      *
      * @param array $values
      *
      * @return $this
      */
-    final private function setValues($values)
+    private function setValues($values)
     {
         if (! empty($values)) {
             if ($this->canHaveMultipleValues()) {
@@ -351,91 +460,6 @@ final class ShellOption
             } elseif ($this->canHaveValue()) {
                 $this->addValue($values);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add a new value to this option.
-     *
-     * @param string|int $value
-     *
-     * @return $this
-     */
-    final public function addValue($value)
-    {
-        $this->assertCanHaveValue();
-        $this->assertValueIsValid($value);
-
-        if ($this->canHaveMultipleValues() && ! $this->hasValue($value)) {
-            $value = array_merge($this->values, (array) $value);
-        }
-
-        $this->values = (array) $value;
-
-        return $this;
-    }
-
-    /**
-     * Add multiple values to this option.
-     *
-     * @param array $values
-     *
-     * @return $this
-     */
-    final public function addValues(array $values = [])
-    {
-        $this->assertCanHaveMultipleValues();
-
-        foreach ($values as $value) {
-            $this->addValue($value);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove the given value from the option.
-     *
-     * @param string|int $value
-     *
-     * @return $this
-     */
-    final public function removeValue($value)
-    {
-        if (! $this->canHaveMultipleValues() && ! isset($value)) {
-            $this->values = [];
-            $this->enable($enable = false);
-
-            return $this;
-        }
-
-        $this->assertValueIsValid($value);
-        $this->assertCanHaveValue();
-
-        if ($this->hasValue($value)) {
-            $index = array_search($value, $this->values);
-            unset($this->values[$index]);
-            $this->values = array_values($this->values);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove the given values from the option.
-     *
-     * @param array $values
-     *
-     * @return $this
-     */
-    final public function removeValues(array $values = [])
-    {
-        $this->assertCanHaveMultipleValues();
-
-        foreach ($values as $value) {
-            $this->removeValue($value);
         }
 
         return $this;
@@ -452,7 +476,7 @@ final class ShellOption
      *
      * @return bool
      */
-    final private function assertValueIsValid($value)
+    private function assertValueIsValid($value)
     {
         if (! is_string($value) && ! is_numeric($value)) {
             throw new InvalidArgumentException("Value can only be a string or numeric. [$value] given.");
@@ -470,7 +494,7 @@ final class ShellOption
      *
      * @return bool
      */
-    final private function assertCanHaveValue()
+    private function assertCanHaveValue()
     {
         if (! $this->canHaveValue()) {
             throw new LogicException("The option [{$this->flag}] cannot set or remove any values.");
@@ -488,37 +512,12 @@ final class ShellOption
      *
      * @return bool
      */
-    final private function assertCanHaveMultipleValues()
+    private function assertCanHaveMultipleValues()
     {
         if (! $this->canHaveMultipleValues()) {
             throw new LogicException("The option [{$this->flag}] cannot set or remove multiple values.");
         }
 
         return true;
-    }
-
-    /**
-     * Get the option and its values as an array.
-     *
-     * @return array
-     */
-    final public function getArray()
-    {
-        $options = [];
-
-        if ($this->isDisabled() || $this->canHaveValue() && empty($this->values)) {
-            return $options;
-        }
-
-        foreach ($this->values as $value) {
-            $options[] = $this->flag();
-            $options[] = $value;
-        }
-
-        if (empty($options)) {
-            $options[] = $this->flag();
-        }
-
-        return $options;
     }
 }
