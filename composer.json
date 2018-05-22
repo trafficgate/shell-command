@@ -35,5 +35,10 @@
             "dev-master": "2.0.x-dev"
         }
     },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
     "minimum-stability": "stable"
 }
