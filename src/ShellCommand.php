@@ -23,13 +23,6 @@ abstract class ShellCommand
     const RETRY_LIMIT = 1;
 
     /**
-     * The logger.
-     *
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * The raw command to use for the shell command.
      *
      * This should be set in the child class.
@@ -48,22 +41,6 @@ abstract class ShellCommand
     protected $commandTimeout;
 
     /**
-     * The number of times to retry a command if it fails.
-     *
-     * Set the retry limit to null to retry forever.
-     *
-     * @var int|null
-     */
-    private $retryLimit;
-
-    /**
-     * The number of times the command was attempted before it succeeded.
-     *
-     * @var int
-     */
-    private $retryCount;
-
-    /**
      * The raw arguments to use for the shell command.
      *
      * This should be set in the child class.
@@ -80,6 +57,29 @@ abstract class ShellCommand
      * @var array
      */
     protected $options;
+
+    /**
+     * The logger.
+     *
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * The number of times to retry a command if it fails.
+     *
+     * Set the retry limit to null to retry forever.
+     *
+     * @var int|null
+     */
+    private $retryLimit;
+
+    /**
+     * The number of times the command was attempted before it succeeded.
+     *
+     * @var int
+     */
+    private $retryCount;
 
     /**
      * The command to be executed by shell.
@@ -139,16 +139,6 @@ abstract class ShellCommand
         $this->setShellCommand($this->command);
         $this->setShellOptions($this->options);
         $this->setShellArguments($this->arguments);
-    }
-
-    /**
-     * Get the logger.
-     *
-     * @return Logger
-     */
-    final private function getLogger()
-    {
-        return $this->logger;
     }
 
     /**
@@ -243,70 +233,6 @@ abstract class ShellCommand
     }
 
     /**
-     * Reset the number of retries to zero.
-     */
-    final protected function resetRetryCount()
-    {
-        $this->retryCount = 0;
-    }
-
-    /**
-     * Increase the retry counter by one.
-     */
-    final protected function increaseRetryCount()
-    {
-        ++$this->retryCount;
-    }
-
-    /**
-     * Set the command to execute.
-     *
-     * The command can only be set once.
-     *
-     * @param $command
-     *
-     * @return $this
-     */
-    final private function setShellCommand($command)
-    {
-        if (! isset($command)) {
-            throw new InvalidArgumentException('Must define a command.');
-        }
-
-        if (isset($this->shellCommand) && $this->shellCommand !== $command) {
-            throw new LogicException('Cannot redefine command once set!');
-        }
-
-        $this->shellCommand = $command;
-
-        return $this;
-    }
-
-    /**
-     * Set the arguments using the raw arguments array.
-     *
-     * @param array $arguments
-     */
-    final private function setShellArguments(array $arguments)
-    {
-        foreach ($arguments as $argument) {
-            $this->defineArgument($argument);
-        }
-    }
-
-    /**
-     * Set the options using the raw options array.
-     *
-     * @param array $options
-     */
-    final private function setShellOptions(array $options)
-    {
-        foreach ($options as $option) {
-            $this->defineOption($option);
-        }
-    }
-
-    /**
      * Get the command for the object.
      *
      * @return string
@@ -342,6 +268,7 @@ abstract class ShellCommand
         foreach ($this->shellArguments as $shellArgument) {
             if ($shellArgument['key'] === $key) {
                 $result = $shellArgument;
+
                 break;
             }
         }
@@ -473,6 +400,22 @@ abstract class ShellCommand
     }
 
     /**
+     * Reset the number of retries to zero.
+     */
+    final protected function resetRetryCount()
+    {
+        $this->retryCount = 0;
+    }
+
+    /**
+     * Increase the retry counter by one.
+     */
+    final protected function increaseRetryCount()
+    {
+        ++$this->retryCount;
+    }
+
+    /**
      * Update the specific argument.
      *
      * @param string $key
@@ -485,6 +428,7 @@ abstract class ShellCommand
         foreach ($this->shellArguments as &$shellArgument) {
             if ($shellArgument['key'] === $key) {
                 $shellArgument['value'] = $value;
+
                 break;
             }
         }
@@ -516,13 +460,71 @@ abstract class ShellCommand
     }
 
     /**
+     * Get the logger.
+     *
+     * @return Logger
+     */
+    private function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * Set the command to execute.
+     *
+     * The command can only be set once.
+     *
+     * @param $command
+     *
+     * @return $this
+     */
+    private function setShellCommand($command)
+    {
+        if (! isset($command)) {
+            throw new InvalidArgumentException('Must define a command.');
+        }
+
+        if (isset($this->shellCommand) && $this->shellCommand !== $command) {
+            throw new LogicException('Cannot redefine command once set!');
+        }
+
+        $this->shellCommand = $command;
+
+        return $this;
+    }
+
+    /**
+     * Set the arguments using the raw arguments array.
+     *
+     * @param array $arguments
+     */
+    private function setShellArguments(array $arguments)
+    {
+        foreach ($arguments as $argument) {
+            $this->defineArgument($argument);
+        }
+    }
+
+    /**
+     * Set the options using the raw options array.
+     *
+     * @param array $options
+     */
+    private function setShellOptions(array $options)
+    {
+        foreach ($options as $option) {
+            $this->defineOption($option);
+        }
+    }
+
+    /**
      * Set an argument for the command.
      *
      * @param string $key
      *
      * @return $this
      */
-    final private function defineArgument($key)
+    private function defineArgument($key)
     {
         $shellArgumentFound = false;
         foreach ($this->shellArguments as $shellArgument) {
@@ -545,7 +547,7 @@ abstract class ShellCommand
      *
      * @return $this
      */
-    final private function defineOption($flag)
+    private function defineOption($flag)
     {
         $this->shellOptions[$flag] = new ShellOption($flag);
 
@@ -559,7 +561,7 @@ abstract class ShellCommand
      * @param mixed|null  $value
      * @param bool|false  $remove
      */
-    final private function updateOptionValue(ShellOption $shellOption, $value = null, $remove = false)
+    private function updateOptionValue(ShellOption $shellOption, $value = null, $remove = false)
     {
         if ($remove) {
             $shellOption->removeValue($value);
@@ -573,7 +575,7 @@ abstract class ShellCommand
      *
      * @return Process
      */
-    final private function compile()
+    private function compile()
     {
         $shellOptions = [];
         /** @var ShellOption $shellOption */
@@ -602,7 +604,7 @@ abstract class ShellCommand
      *
      * @param Exception $e
      */
-    final private function setLastError(Exception $e)
+    private function setLastError(Exception $e)
     {
         $this->error = $e;
     }
