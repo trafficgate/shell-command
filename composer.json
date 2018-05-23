@@ -13,27 +13,33 @@
         }
     ],
     "require": {
-        "symfony/process": "~2.8|~3.0",
+        "php": "^7.0.0",
+        "symfony/process": "~3.0|~4.0",
         "psr/log": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.5",
-        "friendsofphp/php-cs-fixer": "^1.12"
+        "phpunit/phpunit": "~6.0",
+        "friendsofphp/php-cs-fixer": "~2.0"
     },
     "autoload": {
         "psr-4": {
-            "Trafficgate\\": "src/"
+            "Trafficgate\\Shell\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Trafficgate\\": "tests/"
+            "Trafficgate\\Shell\\": "tests/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "minimum-stability": "stable"
 }
