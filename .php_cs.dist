@@ -1,6 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
+    ->exclude(['.git', 'vendor'])
     ->in(__DIR__);
 
 /**
