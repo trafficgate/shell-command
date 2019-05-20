@@ -45,7 +45,7 @@ final class ShellOption
      *
      * @param string $flag The flag value for the shell option
      */
-    public function __construct($flag)
+    public function __construct(string $flag)
     {
         $this->values = [];
         $this->disable();
@@ -63,7 +63,7 @@ final class ShellOption
      *
      * @return string
      */
-    public function flag()
+    public function flag(): string
     {
         return $this->flag;
     }
@@ -73,7 +73,7 @@ final class ShellOption
      *
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
@@ -83,7 +83,7 @@ final class ShellOption
      *
      * @return bool
      */
-    public function isDisabled()
+    public function isDisabled(): bool
     {
         return ! $this->isEnabled();
     }
@@ -97,7 +97,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function enable($enable = true)
+    public function enable(bool $enable = true): ShellOption
     {
         if (! is_bool($enable)) {
             throw new InvalidArgumentException("enable must be a boolean. [$enable] given.");
@@ -115,7 +115,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function disable()
+    public function disable(): ShellOption
     {
         return $this->enable(false);
     }
@@ -125,7 +125,7 @@ final class ShellOption
      *
      * @return bool
      */
-    public function canHaveValue()
+    public function canHaveValue(): bool
     {
         return $this->canHaveValue;
     }
@@ -135,7 +135,7 @@ final class ShellOption
      *
      * @return bool
      */
-    public function canHaveMultipleValues()
+    public function canHaveMultipleValues(): bool
     {
         return $this->canHaveMultipleValues;
     }
@@ -147,7 +147,7 @@ final class ShellOption
      *
      * @return bool
      */
-    public function hasValue($value)
+    public function hasValue($value): bool
     {
         $index = array_search($value, $this->values);
 
@@ -163,7 +163,7 @@ final class ShellOption
      *
      * @return array
      */
-    public function values()
+    public function values(): array
     {
         return $this->values;
     }
@@ -175,7 +175,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function addValue($value)
+    public function addValue($value): ShellOption
     {
         $this->assertCanHaveValue();
         $this->assertValueIsValid($value);
@@ -196,7 +196,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function addValues(array $values = [])
+    public function addValues(array $values = []): ShellOption
     {
         $this->assertCanHaveMultipleValues();
 
@@ -214,7 +214,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function removeValue($value)
+    public function removeValue($value): ShellOption
     {
         if (! $this->canHaveMultipleValues() && ! isset($value)) {
             $this->values = [];
@@ -242,7 +242,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function removeValues(array $values = [])
+    public function removeValues(array $values = []): ShellOption
     {
         $this->assertCanHaveMultipleValues();
 
@@ -258,7 +258,7 @@ final class ShellOption
      *
      * @return array
      */
-    public function getArray()
+    public function getArray(): array
     {
         $options = [];
 
@@ -293,7 +293,7 @@ final class ShellOption
      *
      * @return array
      */
-    private function parseFlag($flag)
+    private function parseFlag(string $flag): array
     {
         $flag    = trim($flag);
         $pattern = '/^'.// Match start of string
@@ -378,7 +378,7 @@ final class ShellOption
      *
      * @return $this
      */
-    private function setFlag($flag)
+    private function setFlag(string $flag): ShellOption
     {
         if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag must be a string. [$flag] given.");
@@ -398,7 +398,7 @@ final class ShellOption
      *
      * @return $this
      */
-    private function setCanHaveValue($canHaveValue)
+    private function setCanHaveValue(bool $canHaveValue): ShellOption
     {
         if (! is_bool($canHaveValue)) {
             throw new InvalidArgumentException("canHaveValue must be a boolean. [$canHaveValue] given.");
@@ -418,7 +418,7 @@ final class ShellOption
      *
      * @return $this
      */
-    private function setCanHaveMultipleValues($canHaveMultipleValues)
+    private function setCanHaveMultipleValues(bool $canHaveMultipleValues): ShellOption
     {
         if (! is_bool($canHaveMultipleValues)) {
             throw new InvalidArgumentException("canHaveMultipleValues must be a boolean. [$canHaveMultipleValues] given.");
@@ -436,7 +436,7 @@ final class ShellOption
      *
      * @throws InvalidArgumentException
      */
-    private function setDescription($description = null)
+    private function setDescription(?string $description = null): void
     {
         if (isset($description) && ! is_string($description)) {
             throw new InvalidArgumentException("Description must be a string. [$description] given.");
@@ -452,7 +452,7 @@ final class ShellOption
      *
      * @return $this
      */
-    private function setValues($values)
+    private function setValues(array $values = []): ShellOption
     {
         if (! empty($values)) {
             if ($this->canHaveMultipleValues()) {
@@ -476,7 +476,7 @@ final class ShellOption
      *
      * @return bool
      */
-    private function assertValueIsValid($value)
+    private function assertValueIsValid($value): bool
     {
         if (! is_string($value) && ! is_numeric($value)) {
             throw new InvalidArgumentException("Value can only be a string or numeric. [$value] given.");
@@ -494,7 +494,7 @@ final class ShellOption
      *
      * @return bool
      */
-    private function assertCanHaveValue()
+    private function assertCanHaveValue(): bool
     {
         if (! $this->canHaveValue()) {
             throw new LogicException("The option [{$this->flag}] cannot set or remove any values.");
@@ -512,7 +512,7 @@ final class ShellOption
      *
      * @return bool
      */
-    private function assertCanHaveMultipleValues()
+    private function assertCanHaveMultipleValues(): bool
     {
         if (! $this->canHaveMultipleValues()) {
             throw new LogicException("The option [{$this->flag}] cannot set or remove multiple values.");

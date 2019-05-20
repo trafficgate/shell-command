@@ -7,14 +7,14 @@ use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class ShellCommandTest extends TestCase
 {
-    public function testCommandTimeout()
+    public function testCommandTimeout(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->setCommandTimeout(2);
         $this->assertEquals(2, $pingCommand->getCommandTimeout());
     }
 
-    public function testCommandTimesOut()
+    public function testCommandTimesOut(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->setCommandTimeout(1);
@@ -23,7 +23,7 @@ class ShellCommandTest extends TestCase
         $this->assertInstanceOf(ProcessTimedOutException::class, $pingCommand->lastError());
     }
 
-    public function testCommandDoesNotTimeout()
+    public function testCommandDoesNotTimeout(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->setCommandTimeout(60);
@@ -33,7 +33,7 @@ class ShellCommandTest extends TestCase
         $this->assertNull($pingCommand->lastError());
     }
 
-    public function testCommandTimesOutFromBeingIdle()
+    public function testCommandTimesOutFromBeingIdle(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->count(2);
@@ -43,7 +43,7 @@ class ShellCommandTest extends TestCase
         $this->assertInstanceOf(ProcessTimedOutException::class, $pingCommand->lastError());
     }
 
-    public function testCommandDoesNotTimeOutFromBeingIdle()
+    public function testCommandDoesNotTimeOutFromBeingIdle(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->count(2);
@@ -53,12 +53,12 @@ class ShellCommandTest extends TestCase
         $this->assertNull($pingCommand->lastError());
     }
 
-    public function testCommandWillOnlyRetryOnceByDefault()
+    public function testCommandWillOnlyRetryOnceByDefault(): void
     {
         $this->assertEquals(1, PingCommand::RETRY_LIMIT);
     }
 
-    public function testCommandWontRetryIfSuccessful()
+    public function testCommandWontRetryIfSuccessful(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->setRetryLimit(2);
@@ -70,7 +70,7 @@ class ShellCommandTest extends TestCase
         $this->assertEquals(1, $pingCommand->getRetryCount());
     }
 
-    public function testCommandCanBeRetried()
+    public function testCommandCanBeRetried(): void
     {
         $pingCommand = new PingCommand();
         $pingCommand->setRetryLimit(2);
