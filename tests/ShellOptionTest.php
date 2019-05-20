@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ShellOptionTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $flag = '--test';
 
@@ -14,7 +14,7 @@ class ShellOptionTest extends TestCase
         $this->assertInstanceOf(ShellOption::class, $option);
     }
 
-    public function testFlag()
+    public function testFlag(): void
     {
         $flag = '--test';
 
@@ -22,7 +22,7 @@ class ShellOptionTest extends TestCase
         $this->assertEquals($flag, $option->flag());
     }
 
-    public function testIsEnabled()
+    public function testIsEnabled(): void
     {
         $flag = '--test';
 
@@ -33,7 +33,7 @@ class ShellOptionTest extends TestCase
         $this->assertTrue($option->isEnabled());
     }
 
-    public function testEnable()
+    public function testEnable(): void
     {
         $flag = '--test';
 
@@ -49,7 +49,7 @@ class ShellOptionTest extends TestCase
         $this->assertFalse($option->isEnabled());
     }
 
-    public function testCanHaveValue()
+    public function testCanHaveValue(): void
     {
         $flag = '--test';
 
@@ -62,7 +62,7 @@ class ShellOptionTest extends TestCase
         $this->assertTrue($option->canHaveValue());
     }
 
-    public function testCanHaveMultipleValues()
+    public function testCanHaveMultipleValues(): void
     {
         $flag = '--test';
 
@@ -75,7 +75,7 @@ class ShellOptionTest extends TestCase
         $this->assertTrue($option->canHaveMultipleValues());
     }
 
-    public function testHasValue()
+    public function testHasValue(): void
     {
         $flag = '--test=';
 
@@ -88,7 +88,7 @@ class ShellOptionTest extends TestCase
         $this->assertTrue($option->hasValue(2));
     }
 
-    public function testAddValue()
+    public function testAddValue(): void
     {
         $flag = '--test=';
 
@@ -99,7 +99,7 @@ class ShellOptionTest extends TestCase
         $this->assertEquals([1], $option->values());
     }
 
-    public function testAddValues()
+    public function testAddValues(): void
     {
         $flag = '--test=*';
 
@@ -114,7 +114,7 @@ class ShellOptionTest extends TestCase
         $this->assertEquals([1, 2, 3, 4], $option->values());
     }
 
-    public function testRemoveValue()
+    public function testRemoveValue(): void
     {
         $flag = '--test=';
 
@@ -126,7 +126,7 @@ class ShellOptionTest extends TestCase
         $this->assertEmpty($option->values());
     }
 
-    public function testRemoveValues()
+    public function testRemoveValues(): void
     {
         $flag = '--test=*';
 
@@ -138,7 +138,7 @@ class ShellOptionTest extends TestCase
         $this->assertEquals([1, 3], $option->values());
     }
 
-    public function testGetArray()
+    public function testGetArray(): void
     {
         // Test without any values
         $flag   = '--test';

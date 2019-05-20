@@ -40,7 +40,7 @@ class PingCommand extends ShellCommand
      * @param bool $remove
      * @param bool $enable
      */
-    public function count($count = null, $remove = false, $enable = true)
+    public function count(int $count = null, bool $remove = false, bool $enable = true): void
     {
         $this->updateOption(static::OPTION_COUNT, $enable, $count, $remove);
     }
@@ -52,7 +52,7 @@ class PingCommand extends ShellCommand
      * @param bool $remove
      * @param bool $enable
      */
-    public function interval($interval = null, $remove = false, $enable = true)
+    public function interval(int $interval = null, bool $remove = false, bool $enable = true): void
     {
         $this->updateOption(static::OPTION_INTERVAL, $enable, $interval, $remove);
     }
@@ -64,7 +64,7 @@ class PingCommand extends ShellCommand
      *
      * @return $this
      */
-    public function host($host)
+    public function host(string $host): PingCommand
     {
         return $this->updateArgument('host', $host);
     }
