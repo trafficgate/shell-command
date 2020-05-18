@@ -14,15 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Minimum supported PHP version to 7.1.3.
 - PHPUnit to v8.0.
 
-[2.0.0] - 2018-05-23
+## [2.0.0] - 2018-05-23
 
 Please update me.
 
-[1.0.1] - 2017-09-01
+## [1.0.1] - 2017-09-01
 
 Please update me.
 
-[1.0.0] - 2016-10-03
+## [1.0.0] - 2016-10-03
 
 Please update me.
 
