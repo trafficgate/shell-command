@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Type hinting for both function parameters and returns.
+- Support for symfony/process ~5.0.
 
 ### Changed
 - Minimum supported PHP version to 7.1.3.
