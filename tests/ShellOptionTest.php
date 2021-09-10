@@ -141,7 +141,7 @@ class ShellOptionTest extends TestCase
     public function testGetArray(): void
     {
         // Test without any values
-        $flag   = '--test';
+        $flag = '--test';
         $option = new ShellOption($flag);
 
         $array = $option->getArray();
@@ -152,7 +152,7 @@ class ShellOptionTest extends TestCase
         $this->assertEquals(['--test'], $array);
 
         // Test with exactly one value
-        $flag   = '--test=';
+        $flag = '--test=';
         $option = new ShellOption($flag);
 
         $option->enable()->addValue(1);
@@ -160,7 +160,7 @@ class ShellOptionTest extends TestCase
         $this->assertEquals(['--test', 1], $array);
 
         // Test with multiple values
-        $flag   = '--test=*';
+        $flag = '--test=*';
         $option = new ShellOption($flag);
 
         $option->enable()->addValues([1, 2]);

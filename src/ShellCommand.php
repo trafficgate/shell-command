@@ -17,10 +17,10 @@ use Symfony\Component\Process\Process;
 abstract class ShellCommand
 {
     /** Timeout command after 60 seconds by default. */
-    const COMMAND_TIMEOUT = 60;
+    public const COMMAND_TIMEOUT = 60;
 
     /** Command will not be retried by default. */
-    const RETRY_LIMIT = 1;
+    public const RETRY_LIMIT = 1;
 
     /**
      * The raw command to use for the shell command.
@@ -86,7 +86,7 @@ abstract class ShellCommand
      *
      * @var string
      */
-    private $shellCommand = null;
+    private $shellCommand;
 
     /**
      * The arguments for the command.
@@ -376,7 +376,7 @@ abstract class ShellCommand
      *
      * @return bool[]
      */
-    final public function runMulti($idleTimeout = null, callable $callback = null)
+    final public function runMulti($idleTimeout = null, ?callable $callback = null)
     {
         $this->resetRetryCount();
 
@@ -495,8 +495,6 @@ abstract class ShellCommand
 
     /**
      * Set the arguments using the raw arguments array.
-     *
-     * @param array $arguments
      */
     private function setShellArguments(array $arguments): void
     {
@@ -507,8 +505,6 @@ abstract class ShellCommand
 
     /**
      * Set the options using the raw options array.
-     *
-     * @param array $options
      */
     private function setShellOptions(array $options): void
     {
@@ -557,9 +553,8 @@ abstract class ShellCommand
     /**
      * Update the value for an option.
      *
-     * @param ShellOption $shellOption
-     * @param mixed|null  $value
-     * @param bool|false  $remove
+     * @param mixed|null $value
+     * @param bool|false $remove
      */
     private function updateOptionValue(ShellOption $shellOption, $value = null, bool $remove = false): void
     {
@@ -601,8 +596,6 @@ abstract class ShellCommand
 
     /**
      * Set the last error.
-     *
-     * @param Exception $e
      */
     private function setLastError(Exception $e): void
     {
