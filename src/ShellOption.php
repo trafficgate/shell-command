@@ -267,7 +267,7 @@ final class ShellOption
      */
     private function parseFlag(string $flag): array
     {
-        $flag = trim($flag);
+        $flag    = trim($flag);
         $pattern = '/^'.// Match start of string
             '('.// Start Group
                 '(?<flag>(?:-\w|--\w[\w-]+))'.// Match Group <flag>
@@ -292,7 +292,7 @@ final class ShellOption
             '$/'; // Match end of string
 
         $matches = [];
-        $result = preg_match($pattern, $flag, $matches);
+        $result  = preg_match($pattern, $flag, $matches);
 
         if ($result === 0 || $result === false) {
             throw new LogicException("[{$flag}] is improperly formatted for a shell option.");
