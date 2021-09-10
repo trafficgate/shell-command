@@ -4,8 +4,8 @@ namespace Trafficgate\Shell;
 
 class PingCommand extends ShellCommand
 {
-    const OPTION_COUNT    = '-c= : count';
-    const OPTION_INTERVAL = '-i= : interval';
+    public const OPTION_COUNT = '-c= : count';
+    public const OPTION_INTERVAL = '-i= : interval';
 
     /**
      * The ping command.

@@ -100,7 +100,7 @@ final class ShellOption
     public function enable($enable = true)
     {
         if (! is_bool($enable)) {
-            throw new InvalidArgumentException("enable must be a boolean. [$enable] given.");
+            throw new InvalidArgumentException("enable must be a boolean. [{$enable}] given.");
         }
 
         $this->enabled = $enable;
@@ -151,11 +151,7 @@ final class ShellOption
     {
         $index = array_search($value, $this->values);
 
-        if ($index === false) {
-            return false;
-        }
-
-        return true;
+        return ! ($index === false);
     }
 
     /**
@@ -191,8 +187,6 @@ final class ShellOption
 
     /**
      * Add multiple values to this option.
-     *
-     * @param array $values
      *
      * @return $this
      */
@@ -237,8 +231,6 @@ final class ShellOption
 
     /**
      * Remove the given values from the option.
-     *
-     * @param array $values
      *
      * @return $this
      */
@@ -295,7 +287,7 @@ final class ShellOption
      */
     private function parseFlag($flag)
     {
-        $flag    = trim($flag);
+        $flag = trim($flag);
         $pattern = '/^'.// Match start of string
             '('.// Start Group
                 '(?<flag>(?:-\w|--\w[\w-]+))'.// Match Group <flag>
@@ -320,10 +312,10 @@ final class ShellOption
             '$/'; // Match end of string
 
         $matches = [];
-        $result  = preg_match($pattern, $flag, $matches);
+        $result = preg_match($pattern, $flag, $matches);
 
         if ($result === 0 || $result === false) {
-            throw new LogicException("[$flag] is improperly formatted for a shell option.");
+            throw new LogicException("[{$flag}] is improperly formatted for a shell option.");
         }
 
         // Set flag
@@ -381,7 +373,7 @@ final class ShellOption
     private function setFlag($flag)
     {
         if (! is_string($flag)) {
-            throw new InvalidArgumentException("Flag must be a string. [$flag] given.");
+            throw new InvalidArgumentException("Flag must be a string. [{$flag}] given.");
         }
 
         $this->flag = $flag;
@@ -401,7 +393,7 @@ final class ShellOption
     private function setCanHaveValue($canHaveValue)
     {
         if (! is_bool($canHaveValue)) {
-            throw new InvalidArgumentException("canHaveValue must be a boolean. [$canHaveValue] given.");
+            throw new InvalidArgumentException("canHaveValue must be a boolean. [{$canHaveValue}] given.");
         }
 
         $this->canHaveValue = $canHaveValue;
@@ -421,7 +413,7 @@ final class ShellOption
     private function setCanHaveMultipleValues($canHaveMultipleValues)
     {
         if (! is_bool($canHaveMultipleValues)) {
-            throw new InvalidArgumentException("canHaveMultipleValues must be a boolean. [$canHaveMultipleValues] given.");
+            throw new InvalidArgumentException("canHaveMultipleValues must be a boolean. [{$canHaveMultipleValues}] given.");
         }
 
         $this->canHaveMultipleValues = $canHaveMultipleValues;
@@ -439,7 +431,7 @@ final class ShellOption
     private function setDescription($description = null)
     {
         if (isset($description) && ! is_string($description)) {
-            throw new InvalidArgumentException("Description must be a string. [$description] given.");
+            throw new InvalidArgumentException("Description must be a string. [{$description}] given.");
         }
 
         $this->description = $description;
@@ -479,7 +471,7 @@ final class ShellOption
     private function assertValueIsValid($value)
     {
         if (! is_string($value) && ! is_numeric($value)) {
-            throw new InvalidArgumentException("Value can only be a string or numeric. [$value] given.");
+            throw new InvalidArgumentException("Value can only be a string or numeric. [{$value}] given.");
         }
 
         return true;
