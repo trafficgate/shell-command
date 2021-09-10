@@ -60,8 +60,6 @@ final class ShellOption
 
     /**
      * Get the flag.
-     *
-     * @return string
      */
     public function flag(): string
     {
@@ -70,8 +68,6 @@ final class ShellOption
 
     /**
      * Return if this option is enabled.
-     *
-     * @return bool
      */
     public function isEnabled(): bool
     {
@@ -80,8 +76,6 @@ final class ShellOption
 
     /**
      * Return if this option is disabled.
-     *
-     * @return bool
      */
     public function isDisabled(): bool
     {
@@ -122,8 +116,6 @@ final class ShellOption
 
     /**
      * Return whether this option can have a value or not.
-     *
-     * @return bool
      */
     public function canHaveValue(): bool
     {
@@ -132,8 +124,6 @@ final class ShellOption
 
     /**
      * Return whether this option can have multiple values or not.
-     *
-     * @return bool
      */
     public function canHaveMultipleValues(): bool
     {
@@ -144,8 +134,6 @@ final class ShellOption
      * Return whether this option has the given value or not.
      *
      * @param mixed $value
-     *
-     * @return bool
      */
     public function hasValue($value): bool
     {
@@ -156,8 +144,6 @@ final class ShellOption
 
     /**
      * Get the values for this option.
-     *
-     * @return array
      */
     public function values(): array
     {
@@ -247,8 +233,6 @@ final class ShellOption
 
     /**
      * Get the option and its values as an array.
-     *
-     * @return array
      */
     public function getArray(): array
     {
@@ -280,10 +264,6 @@ final class ShellOption
      *   - "--address="
      *   - "-a=*"
      *   - "--address=*"
-     *
-     * @param string $flag
-     *
-     * @return array
      */
     private function parseFlag(string $flag): array
     {
@@ -364,8 +344,6 @@ final class ShellOption
     /**
      * Set the flag.
      *
-     * @param string $flag
-     *
      * @throws InvalidArgumentException
      *
      * @return $this
@@ -383,8 +361,6 @@ final class ShellOption
 
     /**
      * Set whether the flag can have a value or not.
-     *
-     * @param bool $canHaveValue
      *
      * @throws InvalidArgumentException
      *
@@ -404,8 +380,6 @@ final class ShellOption
     /**
      * Set whether the flag can have multiple values or not.
      *
-     * @param bool $canHaveMultipleValues
-     *
      * @throws InvalidArgumentException
      *
      * @return $this
@@ -424,8 +398,6 @@ final class ShellOption
     /**
      * Set the description.
      *
-     * @param string|null $description
-     *
      * @throws InvalidArgumentException
      */
     private function setDescription(?string $description = null): void
@@ -439,8 +411,6 @@ final class ShellOption
 
     /**
      * Set the values for this option.
-     *
-     * @param array $values
      *
      * @return $this
      */
@@ -465,8 +435,6 @@ final class ShellOption
      * @param mixed $value
      *
      * @throws InvalidArgumentException
-     *
-     * @return bool
      */
     private function assertValueIsValid($value): bool
     {
@@ -483,8 +451,6 @@ final class ShellOption
      * Throw an exception if it cannot.
      *
      * @throws LogicException
-     *
-     * @return bool
      */
     private function assertCanHaveValue(): bool
     {
@@ -501,8 +467,6 @@ final class ShellOption
      * Throw an exception if it cannot.
      *
      * @throws LogicException
-     *
-     * @return bool
      */
     private function assertCanHaveMultipleValues(): bool
     {

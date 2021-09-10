@@ -36,11 +36,9 @@ class PingCommand extends ShellCommand
     /**
      * The number of packets to send/receive.
      *
-     * @param int  $count
-     * @param bool $remove
-     * @param bool $enable
+     * @param int $count
      */
-    public function count(int $count = null, bool $remove = false, bool $enable = true): void
+    public function count(?int $count = null, bool $remove = false, bool $enable = true): void
     {
         $this->updateOption(static::OPTION_COUNT, $enable, $count, $remove);
     }
@@ -48,19 +46,15 @@ class PingCommand extends ShellCommand
     /**
      * The time interval between sending packets.
      *
-     * @param int  $interval
-     * @param bool $remove
-     * @param bool $enable
+     * @param int $interval
      */
-    public function interval(int $interval = null, bool $remove = false, bool $enable = true): void
+    public function interval(?int $interval = null, bool $remove = false, bool $enable = true): void
     {
         $this->updateOption(static::OPTION_INTERVAL, $enable, $interval, $remove);
     }
 
     /**
      * Set the host to ping.
-     *
-     * @param string $host
      *
      * @return $this
      */

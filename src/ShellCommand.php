@@ -158,8 +158,6 @@ abstract class ShellCommand
     /**
      * Set the command timeout.
      *
-     * @param int $commandTimeout
-     *
      * @return $this
      */
     public function setCommandTimeout(int $commandTimeout): ShellCommand
@@ -179,8 +177,6 @@ abstract class ShellCommand
 
     /**
      * Get the command timeout.
-     *
-     * @return int
      */
     public function getCommandTimeout(): int
     {
@@ -191,8 +187,6 @@ abstract class ShellCommand
      * Set the number of times to retry a command if it fails.
      *
      * Set the limit to null to retry forever.
-     *
-     * @param int|null $retryLimit
      *
      * @return $this
      */
@@ -213,8 +207,6 @@ abstract class ShellCommand
 
     /**
      * Get the retry limit.
-     *
-     * @return int|null
      */
     final public function getRetryLimit(): ?int
     {
@@ -224,8 +216,6 @@ abstract class ShellCommand
     /**
      * Get the number of times a command has been
      * attempted before it was successful.
-     *
-     * @return int
      */
     final public function getRetryCount(): int
     {
@@ -234,8 +224,6 @@ abstract class ShellCommand
 
     /**
      * Get the command for the object.
-     *
-     * @return string
      */
     final public function command(): string
     {
@@ -244,8 +232,6 @@ abstract class ShellCommand
 
     /**
      * Get all arguments.
-     *
-     * @return array
      */
     final public function arguments(): array
     {
@@ -278,8 +264,6 @@ abstract class ShellCommand
 
     /**
      * Get all options.
-     *
-     * @return array
      */
     final public function options(): array
     {
@@ -306,8 +290,6 @@ abstract class ShellCommand
 
     /**
      * Get the string that is executed.
-     *
-     * @return string
      */
     final public function getCommandString(): string
     {
@@ -321,8 +303,6 @@ abstract class ShellCommand
      * @param callable|null $callback    A callback to run whenever there is some output available on STDOUT or STDERR
      *
      * @throws LogicException
-     *
-     * @return bool
      */
     final public function runOnce(?int $idleTimeout = null, ?callable $callback = null): bool
     {
@@ -360,8 +340,6 @@ abstract class ShellCommand
      *
      * @param null $idleTimeout
      * @param null $callback
-     *
-     * @return bool
      */
     final public function run(?int $idleTimeout = null, ?callable $callback = null): bool
     {
@@ -418,8 +396,7 @@ abstract class ShellCommand
     /**
      * Update the specific argument.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return $this
      */
@@ -440,10 +417,7 @@ abstract class ShellCommand
     /**
      * Update an option.
      *
-     * @param string $flag
-     * @param bool   $enabled
-     * @param mixed  $value
-     * @param bool   $remove
+     * @param mixed $value
      *
      * @return $this
      */
@@ -461,8 +435,6 @@ abstract class ShellCommand
 
     /**
      * Get the logger.
-     *
-     * @return Logger
      */
     private function getLogger(): Logger
     {
@@ -473,8 +445,6 @@ abstract class ShellCommand
      * Set the command to execute.
      *
      * The command can only be set once.
-     *
-     * @param string $command
      *
      * @return $this
      */
@@ -516,8 +486,6 @@ abstract class ShellCommand
     /**
      * Set an argument for the command.
      *
-     * @param string $key
-     *
      * @return $this
      */
     private function defineArgument(string $key): ShellCommand
@@ -538,8 +506,6 @@ abstract class ShellCommand
 
     /**
      * Set an option for the command.
-     *
-     * @param string $flag
      *
      * @return $this
      */
@@ -567,8 +533,6 @@ abstract class ShellCommand
 
     /**
      * Compile the parts of the command.
-     *
-     * @return Process
      */
     private function compile(): Process
     {
