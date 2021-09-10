@@ -12,7 +12,8 @@ $config
     ->setRules([
         '@PSR12' => true,
         '@PhpCsFixer' => true,
-        'declare_parentheses' => true,
+        // Re-enable once php-cs-fixer 3.1 is supported by oskarstark/php-cs-fixer-ga
+        // 'declare_parentheses' => true,
         'global_namespace_import' => true,
         'heredoc_indentation' => true,
         'list_syntax' => true,
