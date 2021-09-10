@@ -12,6 +12,7 @@ $config
     ->setRules([
         '@PSR12' => true,
         '@PhpCsFixer' => true,
+        'binary_operator_spaces' => ['default'=>'align_single_space_minimal'],
         // Re-enable once php-cs-fixer 3.1 is supported by oskarstark/php-cs-fixer-ga
         // 'declare_parentheses' => true,
         'global_namespace_import' => true,
