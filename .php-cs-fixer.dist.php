@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('vendor')
+    ->ignoreVCS(true)
     ->in(__DIR__);
 
 $config = new PhpCsFixer\Config();
@@ -13,8 +14,7 @@ $config
         '@PSR12' => true,
         '@PhpCsFixer' => true,
         'binary_operator_spaces' => ['default'=>'align_single_space_minimal'],
-        // Re-enable once php-cs-fixer 3.1 is supported by oskarstark/php-cs-fixer-ga
-        // 'declare_parentheses' => true,
+        'declare_parentheses' => true,
         'global_namespace_import' => true,
         'heredoc_indentation' => true,
         'list_syntax' => true,
