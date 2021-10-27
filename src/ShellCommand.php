@@ -322,7 +322,7 @@ abstract class ShellCommand
             $error = $e;
         } catch (Exception $e) {
             $error = $e;
-            $this->logger->error($e->getMessage().$e->getTraceAsString());
+            $this->logger->error($e->getMessage() . $e->getTraceAsString());
         }
 
         if (isset($error)) {

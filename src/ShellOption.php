@@ -268,27 +268,27 @@ final class ShellOption
     private function parseFlag(string $flag): array
     {
         $flag    = trim($flag);
-        $pattern = '/^'.// Match start of string
-            '('.// Start Group
-                '(?<flag>(?:-\w|--\w[\w-]+))'.// Match Group <flag>
-                '(?<enable>\+)?'.//Enable option by default (useful for creating special commands)
-            ')'.// End Group
-            '('.// Start Group
-                '(?<can_have_value>=)?'.// Match Group <can_have_value>
-                '(?<can_have_multiple_values>\*)?'.// Match Group <can_have_multiple_values>
-                '(?<values>'.// Match Group <values>
-                    '(?(<can_have_multiple_values>)'.// If <can_have_multiple_values>
-                        '(\w+,)*\w+|'.// Match multiple comma-separated values
-                        '(?(<can_have_value>)'.// Else if <can_have_value>
-                            '\w+'.// Match only a single value
-                        ')'.// End if <can_have_value>
-                    ')'.// End if <can_have_multiple_values>
-                ')?'.// End Group <values>
-            ')?'.// End Group
-            '('.// Start Group
-                '\s+:\s+'.// [space] followed by ':' followed by [space]
-                '(?<description>.+)'.// Match Group <description>
-            ')?'.// End Group
+        $pattern = '/^' . // Match start of string
+            '(' . // Start Group
+                '(?<flag>(?:-\w|--\w[\w-]+))' . // Match Group <flag>
+                '(?<enable>\+)?' . //Enable option by default (useful for creating special commands)
+            ')' . // End Group
+            '(' . // Start Group
+                '(?<can_have_value>=)?' . // Match Group <can_have_value>
+                '(?<can_have_multiple_values>\*)?' . // Match Group <can_have_multiple_values>
+                '(?<values>' . // Match Group <values>
+                    '(?(<can_have_multiple_values>)' . // If <can_have_multiple_values>
+                        '(\w+,)*\w+|' . // Match multiple comma-separated values
+                        '(?(<can_have_value>)' . // Else if <can_have_value>
+                            '\w+' . // Match only a single value
+                        ')' . // End if <can_have_value>
+                    ')' . // End if <can_have_multiple_values>
+                ')?' . // End Group <values>
+            ')?' . // End Group
+            '(' . // Start Group
+                '\s+:\s+' . // [space] followed by ':' followed by [space]
+                '(?<description>.+)' . // Match Group <description>
+            ')?' . // End Group
             '$/'; // Match end of string
 
         $matches = [];
