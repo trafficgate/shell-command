@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-10-29
+
 ### Added
 - Type hinting for both function parameters and returns.
 - Support for symfony/process ~5.0.
@@ -26,7 +28,8 @@ Please update me.
 
 Please update me.
 
-[Unreleased]: https://github.com/trafficgate/shell-command/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/trafficgate/shell-command/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/trafficgate/shell-command/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/trafficgate/shell-command/compare/v1.0.1...v2.0.0
 [1.0.1]: https://github.com/trafficgate/shell-command/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/trafficgate/shell-command/releases/tag/v1.0.0
