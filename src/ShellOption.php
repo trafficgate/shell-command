@@ -45,7 +45,7 @@ final class ShellOption
      *
      * @param string $flag The flag value for the shell option
      */
-    public function __construct($flag)
+    public function __construct(string $flag)
     {
         $this->values = [];
         $this->disable();
@@ -60,30 +60,24 @@ final class ShellOption
 
     /**
      * Get the flag.
-     *
-     * @return string
      */
-    public function flag()
+    public function flag(): string
     {
         return $this->flag;
     }
 
     /**
      * Return if this option is enabled.
-     *
-     * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
     /**
      * Return if this option is disabled.
-     *
-     * @return bool
      */
-    public function isDisabled()
+    public function isDisabled(): bool
     {
         return ! $this->isEnabled();
     }
@@ -97,10 +91,10 @@ final class ShellOption
      *
      * @return $this
      */
-    public function enable($enable = true)
+    public function enable(bool $enable = true): ShellOption
     {
         if (! is_bool($enable)) {
-            throw new InvalidArgumentException("enable must be a boolean. [$enable] given.");
+            throw new InvalidArgumentException("enable must be a boolean. [{$enable}] given.");
         }
 
         $this->enabled = $enable;
@@ -115,27 +109,23 @@ final class ShellOption
      *
      * @return $this
      */
-    public function disable()
+    public function disable(): ShellOption
     {
         return $this->enable(false);
     }
 
     /**
      * Return whether this option can have a value or not.
-     *
-     * @return bool
      */
-    public function canHaveValue()
+    public function canHaveValue(): bool
     {
         return $this->canHaveValue;
     }
 
     /**
      * Return whether this option can have multiple values or not.
-     *
-     * @return bool
      */
-    public function canHaveMultipleValues()
+    public function canHaveMultipleValues(): bool
     {
         return $this->canHaveMultipleValues;
     }
@@ -144,26 +134,18 @@ final class ShellOption
      * Return whether this option has the given value or not.
      *
      * @param mixed $value
-     *
-     * @return bool
      */
-    public function hasValue($value)
+    public function hasValue($value): bool
     {
         $index = array_search($value, $this->values);
 
-        if ($index === false) {
-            return false;
-        }
-
-        return true;
+        return ! ($index === false);
     }
 
     /**
      * Get the values for this option.
-     *
-     * @return array
      */
-    public function values()
+    public function values(): array
     {
         return $this->values;
     }
@@ -175,7 +157,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function addValue($value)
+    public function addValue($value): ShellOption
     {
         $this->assertCanHaveValue();
         $this->assertValueIsValid($value);
@@ -192,11 +174,9 @@ final class ShellOption
     /**
      * Add multiple values to this option.
      *
-     * @param array $values
-     *
      * @return $this
      */
-    public function addValues(array $values = [])
+    public function addValues(array $values = []): ShellOption
     {
         $this->assertCanHaveMultipleValues();
 
@@ -214,7 +194,7 @@ final class ShellOption
      *
      * @return $this
      */
-    public function removeValue($value)
+    public function removeValue($value): ShellOption
     {
         if (! $this->canHaveMultipleValues() && ! isset($value)) {
             $this->values = [];
@@ -238,11 +218,9 @@ final class ShellOption
     /**
      * Remove the given values from the option.
      *
-     * @param array $values
-     *
      * @return $this
      */
-    public function removeValues(array $values = [])
+    public function removeValues(array $values = []): ShellOption
     {
         $this->assertCanHaveMultipleValues();
 
@@ -255,10 +233,8 @@ final class ShellOption
 
     /**
      * Get the option and its values as an array.
-     *
-     * @return array
      */
-    public function getArray()
+    public function getArray(): array
     {
         $options = [];
 
@@ -288,42 +264,38 @@ final class ShellOption
      *   - "--address="
      *   - "-a=*"
      *   - "--address=*"
-     *
-     * @param string $flag
-     *
-     * @return array
      */
-    private function parseFlag($flag)
+    private function parseFlag(string $flag): array
     {
         $flag    = trim($flag);
-        $pattern = '/^'.// Match start of string
-            '('.// Start Group
-                '(?<flag>(?:-\w|--\w[\w-]+))'.// Match Group <flag>
-                '(?<enable>\+)?'.//Enable option by default (useful for creating special commands)
-            ')'.// End Group
-            '('.// Start Group
-                '(?<can_have_value>=)?'.// Match Group <can_have_value>
-                '(?<can_have_multiple_values>\*)?'.// Match Group <can_have_multiple_values>
-                '(?<values>'.// Match Group <values>
-                    '(?(<can_have_multiple_values>)'.// If <can_have_multiple_values>
-                        '(\w+,)*\w+|'.// Match multiple comma-separated values
-                        '(?(<can_have_value>)'.// Else if <can_have_value>
-                            '\w+'.// Match only a single value
-                        ')'.// End if <can_have_value>
-                    ')'.// End if <can_have_multiple_values>
-                ')?'.// End Group <values>
-            ')?'.// End Group
-            '('.// Start Group
-                '\s+:\s+'.// [space] followed by ':' followed by [space]
-                '(?<description>.+)'.// Match Group <description>
-            ')?'.// End Group
+        $pattern = '/^' . // Match start of string
+            '(' . // Start Group
+                '(?<flag>(?:-\w|--\w[\w-]+))' . // Match Group <flag>
+                '(?<enable>\+)?' . //Enable option by default (useful for creating special commands)
+            ')' . // End Group
+            '(' . // Start Group
+                '(?<can_have_value>=)?' . // Match Group <can_have_value>
+                '(?<can_have_multiple_values>\*)?' . // Match Group <can_have_multiple_values>
+                '(?<values>' . // Match Group <values>
+                    '(?(<can_have_multiple_values>)' . // If <can_have_multiple_values>
+                        '(\w+,)*\w+|' . // Match multiple comma-separated values
+                        '(?(<can_have_value>)' . // Else if <can_have_value>
+                            '\w+' . // Match only a single value
+                        ')' . // End if <can_have_value>
+                    ')' . // End if <can_have_multiple_values>
+                ')?' . // End Group <values>
+            ')?' . // End Group
+            '(' . // Start Group
+                '\s+:\s+' . // [space] followed by ':' followed by [space]
+                '(?<description>.+)' . // Match Group <description>
+            ')?' . // End Group
             '$/'; // Match end of string
 
         $matches = [];
         $result  = preg_match($pattern, $flag, $matches);
 
         if ($result === 0 || $result === false) {
-            throw new LogicException("[$flag] is improperly formatted for a shell option.");
+            throw new LogicException("[{$flag}] is improperly formatted for a shell option.");
         }
 
         // Set flag
@@ -372,16 +344,14 @@ final class ShellOption
     /**
      * Set the flag.
      *
-     * @param string $flag
-     *
      * @throws InvalidArgumentException
      *
      * @return $this
      */
-    private function setFlag($flag)
+    private function setFlag(string $flag): ShellOption
     {
         if (! is_string($flag)) {
-            throw new InvalidArgumentException("Flag must be a string. [$flag] given.");
+            throw new InvalidArgumentException("Flag must be a string. [{$flag}] given.");
         }
 
         $this->flag = $flag;
@@ -392,16 +362,14 @@ final class ShellOption
     /**
      * Set whether the flag can have a value or not.
      *
-     * @param bool $canHaveValue
-     *
      * @throws InvalidArgumentException
      *
      * @return $this
      */
-    private function setCanHaveValue($canHaveValue)
+    private function setCanHaveValue(bool $canHaveValue): ShellOption
     {
         if (! is_bool($canHaveValue)) {
-            throw new InvalidArgumentException("canHaveValue must be a boolean. [$canHaveValue] given.");
+            throw new InvalidArgumentException("canHaveValue must be a boolean. [{$canHaveValue}] given.");
         }
 
         $this->canHaveValue = $canHaveValue;
@@ -412,16 +380,14 @@ final class ShellOption
     /**
      * Set whether the flag can have multiple values or not.
      *
-     * @param bool $canHaveMultipleValues
-     *
      * @throws InvalidArgumentException
      *
      * @return $this
      */
-    private function setCanHaveMultipleValues($canHaveMultipleValues)
+    private function setCanHaveMultipleValues(bool $canHaveMultipleValues): ShellOption
     {
         if (! is_bool($canHaveMultipleValues)) {
-            throw new InvalidArgumentException("canHaveMultipleValues must be a boolean. [$canHaveMultipleValues] given.");
+            throw new InvalidArgumentException("canHaveMultipleValues must be a boolean. [{$canHaveMultipleValues}] given.");
         }
 
         $this->canHaveMultipleValues = $canHaveMultipleValues;
@@ -432,14 +398,12 @@ final class ShellOption
     /**
      * Set the description.
      *
-     * @param string|null $description
-     *
      * @throws InvalidArgumentException
      */
-    private function setDescription($description = null)
+    private function setDescription(?string $description = null): void
     {
         if (isset($description) && ! is_string($description)) {
-            throw new InvalidArgumentException("Description must be a string. [$description] given.");
+            throw new InvalidArgumentException("Description must be a string. [{$description}] given.");
         }
 
         $this->description = $description;
@@ -448,11 +412,9 @@ final class ShellOption
     /**
      * Set the values for this option.
      *
-     * @param array $values
-     *
      * @return $this
      */
-    private function setValues($values)
+    private function setValues(array $values = []): ShellOption
     {
         if (! empty($values)) {
             if ($this->canHaveMultipleValues()) {
@@ -473,13 +435,11 @@ final class ShellOption
      * @param mixed $value
      *
      * @throws InvalidArgumentException
-     *
-     * @return bool
      */
-    private function assertValueIsValid($value)
+    private function assertValueIsValid($value): bool
     {
         if (! is_string($value) && ! is_numeric($value)) {
-            throw new InvalidArgumentException("Value can only be a string or numeric. [$value] given.");
+            throw new InvalidArgumentException("Value can only be a string or numeric. [{$value}] given.");
         }
 
         return true;
@@ -491,10 +451,8 @@ final class ShellOption
      * Throw an exception if it cannot.
      *
      * @throws LogicException
-     *
-     * @return bool
      */
-    private function assertCanHaveValue()
+    private function assertCanHaveValue(): bool
     {
         if (! $this->canHaveValue()) {
             throw new LogicException("The option [{$this->flag}] cannot set or remove any values.");
@@ -509,10 +467,8 @@ final class ShellOption
      * Throw an exception if it cannot.
      *
      * @throws LogicException
-     *
-     * @return bool
      */
-    private function assertCanHaveMultipleValues()
+    private function assertCanHaveMultipleValues(): bool
     {
         if (! $this->canHaveMultipleValues()) {
             throw new LogicException("The option [{$this->flag}] cannot set or remove multiple values.");

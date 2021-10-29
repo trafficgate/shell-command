@@ -4,8 +4,8 @@ namespace Trafficgate\Shell;
 
 class PingCommand extends ShellCommand
 {
-    const OPTION_COUNT    = '-c= : count';
-    const OPTION_INTERVAL = '-i= : interval';
+    public const OPTION_COUNT    = '-c= : count';
+    public const OPTION_INTERVAL = '-i= : interval';
 
     /**
      * The ping command.
@@ -36,11 +36,9 @@ class PingCommand extends ShellCommand
     /**
      * The number of packets to send/receive.
      *
-     * @param int  $count
-     * @param bool $remove
-     * @param bool $enable
+     * @param int $count
      */
-    public function count($count = null, $remove = false, $enable = true)
+    public function count(?int $count = null, bool $remove = false, bool $enable = true): void
     {
         $this->updateOption(static::OPTION_COUNT, $enable, $count, $remove);
     }
@@ -48,11 +46,9 @@ class PingCommand extends ShellCommand
     /**
      * The time interval between sending packets.
      *
-     * @param int  $interval
-     * @param bool $remove
-     * @param bool $enable
+     * @param int $interval
      */
-    public function interval($interval = null, $remove = false, $enable = true)
+    public function interval(?int $interval = null, bool $remove = false, bool $enable = true): void
     {
         $this->updateOption(static::OPTION_INTERVAL, $enable, $interval, $remove);
     }
@@ -60,11 +56,9 @@ class PingCommand extends ShellCommand
     /**
      * Set the host to ping.
      *
-     * @param string $host
-     *
      * @return $this
      */
-    public function host($host)
+    public function host(string $host): PingCommand
     {
         return $this->updateArgument('host', $host);
     }
