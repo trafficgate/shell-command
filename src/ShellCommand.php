@@ -36,7 +36,7 @@ abstract class ShellCommand
      *
      * Set command timeout to null to disable timeout.
      *
-     * @var int
+     * @var float
      */
     protected $commandTimeout;
 
@@ -160,16 +160,8 @@ abstract class ShellCommand
      *
      * @return $this
      */
-    public function setCommandTimeout(int $commandTimeout): ShellCommand
+    public function setCommandTimeout(?float $commandTimeout): ShellCommand
     {
-        if ($commandTimeout !== null && ! is_numeric($commandTimeout)) {
-            throw new InvalidArgumentException('Timeout must be an integer.');
-        }
-
-        if (is_string($commandTimeout)) {
-            $commandTimeout = (int) $commandTimeout;
-        }
-
         $this->commandTimeout = $commandTimeout;
 
         return $this;
@@ -178,7 +170,7 @@ abstract class ShellCommand
     /**
      * Get the command timeout.
      */
-    public function getCommandTimeout(): int
+    public function getCommandTimeout(): ?float
     {
         return $this->commandTimeout;
     }
