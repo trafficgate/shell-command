@@ -529,6 +529,7 @@ abstract class ShellCommand
     private function compile(): Process
     {
         $shellOptions = [];
+
         /** @var ShellOption $shellOption */
         foreach ($this->shellOptions as $shellOption) {
             $shellOptions = array_merge($shellOptions, $shellOption->getArray());

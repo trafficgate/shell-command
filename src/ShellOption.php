@@ -87,9 +87,9 @@ final class ShellOption
      *
      * @param bool|true $enable
      *
-     * @throws InvalidArgumentException
-     *
      * @return $this
+     *
+     * @throws InvalidArgumentException
      */
     public function enable(bool $enable = true): ShellOption
     {
@@ -271,7 +271,7 @@ final class ShellOption
         $pattern = '/^' . // Match start of string
             '(' . // Start Group
                 '(?<flag>(?:-\w|--\w[\w-]+))' . // Match Group <flag>
-                '(?<enable>\+)?' . //Enable option by default (useful for creating special commands)
+                '(?<enable>\+)?' . // Enable option by default (useful for creating special commands)
             ')' . // End Group
             '(' . // Start Group
                 '(?<can_have_value>=)?' . // Match Group <can_have_value>
@@ -344,9 +344,9 @@ final class ShellOption
     /**
      * Set the flag.
      *
-     * @throws InvalidArgumentException
-     *
      * @return $this
+     *
+     * @throws InvalidArgumentException
      */
     private function setFlag(string $flag): ShellOption
     {
@@ -362,9 +362,9 @@ final class ShellOption
     /**
      * Set whether the flag can have a value or not.
      *
-     * @throws InvalidArgumentException
-     *
      * @return $this
+     *
+     * @throws InvalidArgumentException
      */
     private function setCanHaveValue(bool $canHaveValue): ShellOption
     {
@@ -380,9 +380,9 @@ final class ShellOption
     /**
      * Set whether the flag can have multiple values or not.
      *
-     * @throws InvalidArgumentException
-     *
      * @return $this
+     *
+     * @throws InvalidArgumentException
      */
     private function setCanHaveMultipleValues(bool $canHaveMultipleValues): ShellOption
     {
