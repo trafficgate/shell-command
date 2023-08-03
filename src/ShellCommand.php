@@ -235,8 +235,6 @@ abstract class ShellCommand
      *
      * Return null if the argument isn't found.
      *
-     * @param $key
-     *
      * @return mixed
      */
     final public function argument(string $key)
@@ -264,8 +262,6 @@ abstract class ShellCommand
 
     /**
      * Get a specific option.
-     *
-     * @param $flag
      *
      * @return mixed
      */

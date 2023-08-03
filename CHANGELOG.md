@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2023-08-03
+### Added
+- Support for phpunit ~10.0.
+
+### Removed
+- Support for PHP < 8.0.
+
 ## [2.1.2] - 2022-01-07
 ### Changed
 - Allowed versions of psr/log to account for PHP 8.
@@ -36,7 +43,8 @@ Please update me.
 
 Please update me.
 
-[Unreleased]: https://github.com/trafficgate/shell-command/compare/v2.1.2...HEAD
+[Unreleased]: https://github.com/trafficgate/shell-command/compare/v2.2.0...HEAD
+[2.1.2]: https://github.com/trafficgate/shell-command/compare/v2.1.2...v2.2.0
 [2.1.2]: https://github.com/trafficgate/shell-command/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/trafficgate/shell-command/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/trafficgate/shell-command/compare/v2.0.0...v2.1.0
