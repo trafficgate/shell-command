@@ -6,21 +6,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2023-08-08
+
+### Added
+
+- Support for phpunit ~10.0.
+
+### Removed
+
+- Support for PHP < 8.0.
+
 ## [2.1.2] - 2022-01-07
+
 ### Changed
+
 - Allowed versions of psr/log to account for PHP 8.
 
 ## [2.1.1] - 2021-11-17
+
 ### Fixed
+
 - Type from `int` to `?float` for `setCommandTimeout()` to match `Symfony\Component\Process\Process::setTimeout(?float)`.
 
 ## [2.1.0] - 2021-10-29
 
 ### Added
+
 - Type hinting for both function parameters and returns.
 - Support for symfony/process ~5.0.
 
 ### Changed
+
 - Minimum supported PHP version to 7.1.3.
 - PHPUnit to v8.0.
 
@@ -36,7 +52,8 @@ Please update me.
 
 Please update me.
 
-[Unreleased]: https://github.com/trafficgate/shell-command/compare/v2.1.2...HEAD
+[Unreleased]: https://github.com/trafficgate/shell-command/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/trafficgate/shell-command/compare/v2.1.2...v3.0.0
 [2.1.2]: https://github.com/trafficgate/shell-command/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/trafficgate/shell-command/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/trafficgate/shell-command/compare/v2.0.0...v2.1.0
