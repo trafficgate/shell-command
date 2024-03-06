@@ -357,8 +357,6 @@ abstract class ShellCommand
 
     /**
      * Get the last error.
-     *
-     * @return Exception
      */
     final public function lastError(): ?Exception
     {

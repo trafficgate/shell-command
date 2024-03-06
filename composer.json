@@ -15,7 +15,7 @@
     "require": {
         "php": "^8.0",
         "psr/log": "^1.0|^2.0|^3.0",
-        "symfony/process": "~3.0|~4.0|~5.0|~6.0"
+        "symfony/process": "~3.0|~4.0|~5.0|~6.0|~7.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~3.0",
@@ -33,7 +33,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "3.1.x-dev"
         }
     },
     "config": {
