@@ -21,6 +21,7 @@ $config
         'class_definition' => ['space_before_parenthesis' => true],
         'concat_space' => ['spacing' => 'one'],
         'declare_parentheses' => true,
+        'fully_qualified_strict_types' => false,
         'global_namespace_import' => true,
         'heredoc_indentation' => true,
         'list_syntax' => ['syntax' => 'short'],
@@ -30,6 +31,7 @@ $config
         'php_unit_internal_class' => false,
         'php_unit_test_class_requires_covers' => false,
         'phpdoc_line_span' => ['const' => 'single'],
+        'phpdoc_separation' => ['skip_unlisted_annotations' => true],
         'phpdoc_to_comment' => [
             'ignored_tags' => [
                 // Used for Swagger documentation
@@ -55,7 +57,9 @@ $config
         'simplified_if_return' => true,
         'simplified_null_return' => true,
         'single_line_comment_style' => ['comment_types' => ['hash']],
+        'single_line_empty_body' => false,
         'ternary_to_null_coalescing' => true,
+        'types_spaces' => ['space' => 'single'],
         'yoda_style' => false,
     ])
     ->setFinder($finder);
