@@ -9,30 +9,34 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('storage')
     ->exclude('vendor')
     ->ignoreVCS(true)
+    ->ignoreDotFiles(false)
     ->in(__DIR__);
 
 $config = new PhpCsFixer\Config();
 $config
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRiskyAllowed(false)
     ->setRules([
-        '@PSR12' => true,
-        '@PhpCsFixer' => true,
-        'binary_operator_spaces' => ['default'=>'align_single_space_minimal'],
-        'class_definition' => ['space_before_parenthesis' => true],
-        'concat_space' => ['spacing' => 'one'],
-        'declare_parentheses' => true,
-        'fully_qualified_strict_types' => false,
-        'global_namespace_import' => true,
-        'heredoc_indentation' => true,
-        'list_syntax' => ['syntax' => 'short'],
-        'multiline_whitespace_before_semicolons' => ['strategy'=>'no_multi_line'],
-        'not_operator_with_successor_space' => true,
+        '@PER-CS2x0'                                       => true,
+        '@PhpCsFixer'                                      => true,
+        'binary_operator_spaces'                           => ['default' => 'align_single_space_minimal'],
+        'class_definition'                                 => ['space_before_parenthesis' => true],
+        'concat_space'                                     => ['spacing' => 'one'],
+        'declare_parentheses'                              => true,
+        'fully_qualified_strict_types'                     => false,
+        'global_namespace_import'                          => true,
+        'heredoc_indentation'                              => true,
+        'list_syntax'                                      => ['syntax' => 'short'],
+        'multiline_whitespace_before_semicolons'           => ['strategy' => 'no_multi_line'],
+        'not_operator_with_successor_space'                => true,
         'nullable_type_declaration_for_default_null_value' => true,
-        'php_unit_internal_class' => false,
-        'php_unit_test_class_requires_covers' => false,
-        'phpdoc_line_span' => ['const' => 'single'],
-        'phpdoc_separation' => ['skip_unlisted_annotations' => true],
-        'phpdoc_to_comment' => [
+        'operator_linebreak'                               => ['only_booleans' => true],
+        'php_unit_attributes'                              => true,
+        'php_unit_internal_class'                          => false,
+        'php_unit_test_class_requires_covers'              => false,
+        'phpdoc_line_span'                                 => ['const' => 'single'],
+        'phpdoc_separation'                                => ['skip_unlisted_annotations' => true],
+        'phpdoc_to_comment'                                => [
             'ignored_tags' => [
                 // Used for Swagger documentation
                 'OA\Components',
@@ -51,16 +55,16 @@ $config
                 'var',
             ],
         ],
-        'phpdoc_types_order' => ['null_adjustment'=>'always_last'],
-        'protected_to_private' => false,
-        'self_static_accessor' => true,
-        'simplified_if_return' => true,
-        'simplified_null_return' => true,
-        'single_line_comment_style' => ['comment_types' => ['hash']],
-        'single_line_empty_body' => false,
+        'phpdoc_types_order'         => ['null_adjustment' => 'always_last'],
+        'protected_to_private'       => false,
+        'self_static_accessor'       => true,
+        'simplified_if_return'       => true,
+        'simplified_null_return'     => true,
+        'single_line_comment_style'  => ['comment_types' => ['hash']],
+        'single_line_empty_body'     => false,
         'ternary_to_null_coalescing' => true,
-        'types_spaces' => ['space' => 'single'],
-        'yoda_style' => false,
+        'types_spaces'               => ['space' => 'single'],
+        'yoda_style'                 => false,
     ])
     ->setFinder($finder);
 
