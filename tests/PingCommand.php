@@ -35,8 +35,6 @@ class PingCommand extends ShellCommand
 
     /**
      * The number of packets to send/receive.
-     *
-     * @param int $count
      */
     public function count(?int $count = null, bool $remove = false, bool $enable = true): void
     {
@@ -45,8 +43,6 @@ class PingCommand extends ShellCommand
 
     /**
      * The time interval between sending packets.
-     *
-     * @param int $interval
      */
     public function interval(?int $interval = null, bool $remove = false, bool $enable = true): void
     {
